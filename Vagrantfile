@@ -4,10 +4,10 @@
 Vagrant.configure('2') do |config|
 
   # Base box (from Hashicorp Atlas)
-  config.vm.box = 'halvards/ubuntumate1604'
+  config.vm.box = 'box-cutter/ubuntu1604-desktop'
 
   # Assign this VM a unique hostname
-  config.vm.host_name = "#{ENV['USER']}.dev.ubuntu64.vagrantup.com"
+  config.vm.host_name = "#{ENV['USER']}.dev.imaker.vagrantup.com"
 
   # The url from where the 'config.vm.box' box will be fetched.
   # config.vm.box_url = 'https://atlas.hashicorp.com/halvards/boxes/ubuntumate1604/versions/20160616.0.0/providers/virtualbox.box'
@@ -37,18 +37,20 @@ Vagrant.configure('2') do |config|
   # Forward a port from the guest to the host
   config.vm.network 'forwarded_port', guest: 22,   host: 2190, id: 'ssh', auto_correct: true
   config.vm.network 'forwarded_port', guest: 3000, host: 3000, auto_correct: true # Web server
+  config.vm.network 'forwarded_port', guest: 3001, host: 3001, auto_correct: true # browsersync server
   config.vm.network 'forwarded_port', guest: 5432, host: 5432, auto_correct: true # PostgreSQL server
   config.vm.network 'forwarded_port', guest: 8080, host: 8080, auto_correct: true # Web server
+  config.vm.network "forwarded_port", guest: 9200, host: 9200, auto_correct: true # corxy server
 
   config.vm.provider 'virtualbox' do |vb|
     # Boot with a GUI so you can see the screen. (Default is headless)
     vb.gui = true
 
     # Set name of VirtualBox VM
-    vb.name = 'dev-ubuntu64'
+    vb.name = 'dev-IMaker'
 
     # Set memory allocated to the VM in MB
-    vb.customize ['modifyvm', :id, '--memory', '4096']
+    vb.customize ['modifyvm', :id, '--memory', '8192']
     vb.customize ['modifyvm', :id, '--cpus', '2']
     vb.customize ['modifyvm', :id, '--vram', '256']
     vb.customize ['modifyvm', :id, '--accelerate2dvideo', 'off']
